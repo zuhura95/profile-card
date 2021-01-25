@@ -9,13 +9,55 @@ class App extends React.Component {
       followers: 1000,
       likes: 803,
       photos: 1400,
-      isFollowing: false
+      isFollowing: false,
+      followButtonText: ''
     };
+    this.addFollower = this.addFollower.bind(this);
+    this.removeFollower = this.removeFollower.bind(this);
   }
   
+  componentDidUpdate(){
+   
+  }
+  componentDidMount(){
+  this.checkFollowingStatus();
+  }
+
+
+  checkFollowingStatus(){
+    if (this.state.isFollowing)
+    this.setState({
+        followButtonText: 'Unfollow'
+    })
+    else{
+     this.setState({followButtonText: 'Follow'}) 
+    }
+   
+  }
 
   addFollower(){
-    console.log('ok');
+    
+    let total= this.state.followers;
+   
+    this.setState({
+    followers : ++total,
+    isFollowing: true,
+    followButtonText: 'Unfollow'
+    });
+ 
+
+  }
+
+  removeFollower(){
+    let total= this.state.followers;
+   
+    this.setState({
+    followers : --total,
+    isFollowing: false,
+    followButtonText: 'Follow'
+    });
+    
+
   }
   render(){
 
@@ -35,8 +77,9 @@ class App extends React.Component {
         </h2> 
         <div className="label">London</div>
         
-        <button className="followButton"
-        onClick={this.addFollower}>Follow</button>
+       <button className="followButton"
+        onClick={this.state.isFollowing ? this.removeFollower : this.addFollower}
+        >{this.state.followButtonText}</button>
         
        </div>
       
